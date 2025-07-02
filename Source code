@@ -1,0 +1,93 @@
+import streamlit as st
+from PIL import Image
+import numpy as np
+import plotly.express as px
+import pandas as pd
+import matplotlib.pyplot as plt
+import os
+
+st.set_page_config(page_title="Iron Ore Identifier", layout="centered")
+
+st.title("🪨 Iron Ore Identification & Quality Insights")
+st.markdown("Upload an image of an iron ore sample to detect its type, visualize concentration, and get global & process insights.")
+
+# ------------------------
+# Upload Image
+# ------------------------
+uploaded_file = st.file_uploader("Upload Iron Ore Image", type=["jpg", "jpeg", "png", "webp"], key="ore_uploader_001")
+if uploaded_file:
+    try:
+        image = Image.open(uploaded_file)
+        st.image(image, caption="Uploaded Ore Image", use_container_width=True)
+    except Exception as e:
+        st.error(f"❌ Error processing image: {e}")
+        st.stop()
+
+    # Simulate image classification (replace this with ML model later)
+    ore_types = ['Hematite', 'Magnetite', 'Limonite', 'Goethite']
+    ore_detected = np.random.choice(ore_types)
+
+    st.subheader("📌 Ore Type Detected:")
+    st.success(f"**{ore_detected}**")
+
+    # ------------------------
+    # Production Lines
+    # ------------------------
+    st.subheader("🏭 Production Applications")
+    production_uses = {
+        'Hematite': ['Blast Furnace Steelmaking', 'Paint Pigments'],
+        'Magnetite': ['Pellet Production', 'Magnetic Separation'],
+        'Limonite': ['Low-grade Pig Iron', 'Soil Treatment'],
+        'Goethite': ['Ceramics', 'Catalysts']
+    }
+    st.write(f"**Used in:** {', '.join(production_uses.get(ore_detected, []))}")
+
+    # ------------------------
+    # Quality Improvement
+    # ------------------------
+    st.subheader("⚙️ Quality Improvement Suggestions")
+    suggestions = [
+        "- **Calcination:** Heating ore to remove moisture and impurities.",
+        "- **Magnetic Separation:** For magnetite-rich ores.",
+        "- **Crushing & Screening:** To achieve uniform particle size.",
+        "- **Floatation & Froth Separation:** For fine ore extraction.",
+        "- **Use of Ore Beneficiation Plants** with advanced crushers or rotary kilns."
+    ]
+    for tip in suggestions:
+        st.markdown(tip)
+
+    # ------------------------
+    # Ore Concentration Chart
+    # ------------------------
+    st.subheader("📊 Estimated Ore Concentration (%)")
+    concentration = np.random.normal(loc=60, scale=10, size=100)
+    fig, ax = plt.subplots()
+    ax.hist(concentration, bins=20, color="orange", edgecolor="black")
+    ax.set_xlabel("Concentration (%)")
+    ax.set_ylabel("Frequency")
+    st.pyplot(fig)
+
+    # ------------------------
+    # Global Availability Map
+    # ------------------------
+    st.subheader("🗺️ Major Iron Ore Producing Countries")
+    geo_data = pd.DataFrame({
+        "Country": ["Australia", "Brazil", "India", "Russia", "China", "South Africa"],
+        "Production (Mt)": [900, 400, 250, 95, 340, 75],
+        "Lat": [-25.2744, -14.2350, 20.5937, 61.5240, 35.8617, -30.5595],
+        "Lon": [133.7751, -51.9253, 78.9629, 105.3188, 104.1954, 22.9375]
+    })
+    fig_map = px.scatter_geo(
+        geo_data,
+        lat="Lat",
+        lon="Lon",
+        text="Country",
+        size="Production (Mt)",
+        color="Production (Mt)",
+        projection="natural earth",
+        title="🌍 Global Iron Ore Production Hotspots"
+    )
+    st.plotly_chart(fig_map)
+
+else:
+    st.info("Please upload an image to begin analysis.")
