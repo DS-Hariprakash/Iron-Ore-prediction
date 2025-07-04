@@ -10,8 +10,6 @@ st.set_page_config(page_title="Iron Ore Identifier", layout="centered")
 
 st.title("🪨 Iron Ore Identification & Quality Insights")
 st.markdown("Upload an image of an iron ore sample to detect its type, visualize concentration, and get global & process insights.")
-
-# ------------------------
 # Upload Image
 # ------------------------
 uploaded_file = st.file_uploader("Upload Iron Ore Image", type=["jpg", "jpeg", "png", "webp"], key="ore_uploader_001")
