@@ -27,8 +27,6 @@ if uploaded_file:
 
     st.subheader("📌 Ore Type Detected:")
     st.success(f"**{ore_detected}**")
-
-    # ------------------------
     # Production Lines
     # ------------------------
     st.subheader("🏭 Production Applications")
