@@ -1,4 +1,4 @@
-# 🪨 Iron Ore Identifier & Quality Insights  
+\# 🪨 Iron Ore Identifier & Quality Insights  
 
 This is a **Streamlit-based web application** that identifies **iron ore types** from uploaded images, provides **production applications**, **quality improvement suggestions**, **ore concentration visualization**, and a **global availability map**.  
 
